@@ -3,23 +3,14 @@ package com.akalji.learn.microservices.resourceservice.service;
 import com.akalji.learn.microservices.resourceservice.autoconfigure.ResourceServiceProperties;
 import com.akalji.learn.microservices.resourceservice.common.domain.Resource;
 import com.akalji.learn.microservices.resourceservice.dao.ResourceDao;
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.GetObjectAclRequest;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PresignedUrlUploadRequest;
-import com.amazonaws.services.s3.model.PresignedUrlUploadResult;
-import com.amazonaws.services.s3.model.PutObjectResult;
-import com.amazonaws.services.s3.model.S3Object;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 

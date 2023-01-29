@@ -2,14 +2,11 @@ package com.akalji.learn.microservice.song.service.service;
 
 import com.akalji.learn.microservice.song.service.common.domain.Song;
 import com.akalji.learn.microservice.song.service.dao.SongMetadataDao;
-import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Nikolai_Tikhonov

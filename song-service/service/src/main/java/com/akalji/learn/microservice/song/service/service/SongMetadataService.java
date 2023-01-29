@@ -2,9 +2,7 @@ package com.akalji.learn.microservice.song.service.service;
 
 import com.akalji.learn.microservice.song.service.common.domain.Song;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Nikolai_Tikhonov
