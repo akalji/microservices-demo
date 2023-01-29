@@ -6,26 +6,38 @@
 
     <groupId>com.akalji.learn</groupId>
     <artifactId>microservices</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2</version>
     </parent>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <java.version>11</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.source>17</maven.compiler.source>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <!-- LOCAL DEPENDENCIES  -->
+        <song-service-commons.version>0.0.1-SNAPSHOT</song-service-commons.version>
+        <resource-service-commons.version>0.0.1-SNAPSHOT</resource-service-commons.version>
+        <resource-processing-service-commons.version>0.0.1-SNAPSHOT</resource-processing-service-commons.version>
+        <commons.version>0.0.1-SNAPSHOT</commons.version>
+        <!-- END LOCAL DEPENDENCIES  -->
+
+        <aws-sdk.version>2.19.26</aws-sdk.version>
         <liquibase.version>4.19.0</liquibase.version>
         <lombok.version>1.18.24</lombok.version>
+        <aws-sdk-s3.version>1.12.395</aws-sdk-s3.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
     </properties>
 
     <modules>
+        <module>commons</module>
         <module>resource-service</module>
         <module>song-service</module>
         <module>resource-processing-service</module>
@@ -33,10 +45,77 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- LOCAL DEPENDENCIES  -->
+            <dependency>
+                <groupId>com.akalji.learn.microservices</groupId>
+                <artifactId>commons</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.akalji.learn.microservices.songservice</groupId>
+                <artifactId>song-service-commons</artifactId>
+                <version>${song-service-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.akalji.learn.microservices.resourceservice</groupId>
+                <artifactId>resource-service-commons</artifactId>
+                <version>${resource-service-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.akalji.learn.microservices.resourceprocessing</groupId>
+                <artifactId>resource-processing-service-commons</artifactId>
+                <version>${resource-processing-service-commons.version}</version>
+            </dependency>
+            <!-- END LOCAL DEPENDENCIES  -->
+
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.24</version>
+                <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>2.2.8</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>2.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${aws-sdk.version}</version>
+                <type>pom</type>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-s3</artifactId>
+                <version>${aws-sdk-s3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>s3-transfer-manager</artifactId>
+                <version>${aws-sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>s3</artifactId>
+                <version>${aws-sdk.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

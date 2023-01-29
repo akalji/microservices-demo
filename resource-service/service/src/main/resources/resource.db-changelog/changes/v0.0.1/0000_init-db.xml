@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="create new databases" author="Nikolai Tikhonov">
+    <sql>
+        CREATE TABLE resources (
+              id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+              uri text NOT NULL
+        );
+        CREATE INDEX resources_id_idx ON resources (id);
+    </sql>
+    </changeSet>
+
+</databaseChangeLog>

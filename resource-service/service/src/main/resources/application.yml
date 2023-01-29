@@ -1,0 +1,35 @@
+spring:
+  liquibase:
+    changeLog: resource.db-changelog/resource-changelog-master.xml
+  servlet:
+    multipart:
+      max-file-size: 35MB
+      max-request-size: 35MB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/msd_resources
+    username: msd_resources
+    password: msd_resources
+  jpa:
+    show-sql: true
+
+resource-service:
+  s3Endpoint: http://s3.localhost.localstack.cloud:4566
+  s3Bucket: resource-bucket
+
+server:
+  port: 8071
+  max-http-header-size: 40KB
+  servlet:
+    context-path: /
+  tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
+
+springdoc:
+  packagesToScan: com.akalji.learn.microservices.resourceservice.controller
+  swagger-ui:
+    docExpansion: none
+    path: /swagger-ui.html
+    tagsSorter: alpha
+    operationsSorter: alpha
+

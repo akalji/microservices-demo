@@ -1,0 +1,30 @@
+spring:
+  liquibase:
+    changeLog: song.db-changelog/songs-changelog-master.xml
+  servlet:
+    multipart:
+      max-file-size: 35MB
+      max-request-size: 35MB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/msd_songs
+    username: msd_songs
+    password: msd_songs
+  jpa:
+    show-sql: true
+
+server:
+  port: 8070
+  max-http-header-size: 40KB
+  servlet:
+    context-path: /
+  tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
+
+springdoc:
+  packagesToScan: com.akalji.learn.microservice.song.service.controller
+  swagger-ui:
+    docExpansion: none
+    path: /swagger-ui.html
+    tagsSorter: alpha
+    operationsSorter: alpha

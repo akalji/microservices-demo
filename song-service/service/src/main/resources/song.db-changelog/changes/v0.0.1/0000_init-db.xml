@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="create sequences" author="Nikolai Tikhonov">
+    <sql>
+        CREATE TABLE song_metadata (
+                                                 id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+                                                 "name" varchar(40) NOT NULL,
+                                                 artist varchar(40) NULL,
+                                                 album varchar(40) NULL,
+                                                 length varchar(10) NULL,
+                                                 "year" integer NULL,
+                                                 resource_id integer NULL,
+                                                 CONSTRAINT song_metadata_pk PRIMARY KEY (id)
+        );
+        CREATE INDEX song_metadata_id_idx ON song_metadata (id);
+    </sql>
+    </changeSet>
+
+</databaseChangeLog>
