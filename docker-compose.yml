@@ -15,6 +15,7 @@ services:
       - 127.0.0.1:5432:5432
     env_file:
       - ./docker/.env
+    restart: unless-stopped
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -28,6 +29,7 @@ services:
       - 2181:2181
     env_file:
       - ./docker/.env
+    restart: unless-stopped
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -46,6 +48,7 @@ services:
       - msl-kafka-data:/var/lib/kafka/data
     env_file:
       - ./docker/.env
+    restart: unless-stopped
 
   localstack:
     container_name: localstack_microservices_demo
@@ -62,24 +65,53 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     env_file:
       - ./docker/.env
+    restart: unless-stopped
 
   resource-service:
+    depends_on:
+      - kafka
+      - postgres
     image: akalji/resource-service
     build:
       context: backend
       dockerfile: ./resource-service/Dockerfile
+    restart: unless-stopped
 
   song-service:
+    depends_on:
+      - postgres
     image: akalji/song-service
     build:
       context: backend
       dockerfile: ./song-service/Dockerfile
+    restart: unless-stopped
 
   resource-processing-service:
+    depends_on:
+      - kafka
+      - postgres
     image: akalji/resource-processing-service
     build:
       context: backend
       dockerfile: ./resource-processing-service/Dockerfile
+    restart: unless-stopped
+
+  keycloak:
+    depends_on:
+      - postgres
+    container_name: keycloak
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: ${POSTGRESQL_ADDRES}
+      DB_DATABASE: ${POSTGRESQL_DB}
+      DB_USER: ${POSTGRESQL_USER}
+      DB_PASSWORD: ${POSTGRESQL_PASS}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USERNAME}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    image: quay.io/keycloak/keycloak:latest
+    volumes:
+        - msl-keycloak:/opt/keycloak/data/
+    restart: unless-stopped
 
 volumes:
   msl-localstack:
@@ -87,3 +119,4 @@ volumes:
   msl-zookeeper-data:
   msl-zookeeper-logs:
   msl-kafka-data:
+  msl-keycloak:
