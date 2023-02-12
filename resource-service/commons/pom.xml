@@ -26,6 +26,10 @@
             <groupId>com.akalji.learn.microservices</groupId>
             <artifactId>commons</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.akalji.learn.microservices.songservice</groupId>
+            <artifactId>song-service-commons</artifactId>
+        </dependency>
         <!-- END Local dependencies-->
 
         <dependency>

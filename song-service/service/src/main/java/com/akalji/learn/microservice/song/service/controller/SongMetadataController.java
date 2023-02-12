@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,30 +16,33 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 import java.util.HashSet;
 
+import static com.akalji.learn.microservice.song.service.common.Endpoints.DELETE_SONGS;
+import static com.akalji.learn.microservice.song.service.common.Endpoints.GET_SONG;
+import static com.akalji.learn.microservice.song.service.common.Endpoints.SAVE_SONG;
+
 /**
  * @author Nikolai_Tikhonov
  */
 @RestController
-@RequestMapping("/songs")
 public class SongMetadataController {
 
     @Autowired
     private SongMetadataService songMetadataService;
 
-    @GetMapping("/{id}")
+    @GetMapping(GET_SONG)
     public SongDto getSong(@PathVariable("id") Integer id) {
         var song = songMetadataService.getSong(id);
         return SongDto.from(song);
     }
 
-    @PostMapping("/")
+    @PostMapping(SAVE_SONG)
     public SongDto postSong(@RequestBody SongDto songDto) {
         var song = songDto.toSong();
         song = songMetadataService.saveSong(song);
         return SongDto.from(song);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping(DELETE_SONGS)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSongs(@RequestParam("ids") Collection<Integer> ids) {
         songMetadataService.deleteSongsByIds(new HashSet<>(ids));

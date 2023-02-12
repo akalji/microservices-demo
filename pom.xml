@@ -34,6 +34,9 @@
         <aws-sdk-s3.version>1.12.395</aws-sdk-s3.version>
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
+        <springdoc-openapi.version>2.0.2</springdoc-openapi.version>
+        <mp3agic.version>0.9.1</mp3agic.version>
+        <swagger-annotations.version>2.2.8</swagger-annotations.version>
     </properties>
 
     <modules>
@@ -76,12 +79,12 @@
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations</artifactId>
-                <version>2.2.8</version>
+                <version>${swagger-annotations.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>2.0.2</version>
+                <version>${springdoc-openapi.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -96,6 +99,11 @@
                 <scope>runtime</scope>
             </dependency>
             <dependency>
+                <groupId>com.mpatric</groupId>
+                <artifactId>mp3agic</artifactId>
+                <version>${mp3agic.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.amazonaws</groupId>
                 <artifactId>aws-java-sdk-s3</artifactId>
                 <version>${aws-sdk-s3.version}</version>
@@ -106,16 +114,16 @@
                 <version>${aws-sdk.version}</version>
             </dependency>
             <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>s3</artifactId>
                 <version>${aws-sdk.version}</version>
                 <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
