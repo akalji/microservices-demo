@@ -1,13 +1,15 @@
 package com.akalji.learn.microservices.resourceservice.service;
 
 import com.akalji.learn.microservices.resourceservice.autoconfigure.ResourceServiceProperties;
-import com.akalji.learn.microservices.resourceservice.common.domain.Resource;
+import com.akalji.learn.microservices.resourceservice.domain.Resource;
 import com.akalji.learn.microservices.resourceservice.dao.ResourceDao;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import org.apache.commons.lang3.Validate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -18,7 +20,7 @@ import java.util.UUID;
  * @author Nikolai_Tikhonov
  */
 @Service
-public class ResourceServiceImpl implements ResourceService{
+public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
     private ResourceDao resourceDao;
@@ -29,6 +31,9 @@ public class ResourceServiceImpl implements ResourceService{
     @Autowired
     private ResourceServiceProperties properties;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     @Override
     public Resource saveResource(InputStream binaryData) {
         var newUuid = UUID.randomUUID();
@@ -36,7 +41,9 @@ public class ResourceServiceImpl implements ResourceService{
         amazonS3Client.putObject(properties.getS3Bucket(), newUuid.toString(), binaryData, objectMetadata);
         var resource = new Resource();
         resource.setUri(newUuid.toString());
-        return resourceDao.save(resource);
+        resource = resourceDao.save(resource);
+        rabbitTemplate.convertAndSend(properties.getNewResourceUploadedQueueName(), resource.getId());
+        return resource;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.akalji.learn.microservice.song.service.service;
 
-import com.akalji.learn.microservice.song.service.common.domain.Song;
+import com.akalji.learn.microservice.song.service.domain.Song;
 
 import java.util.HashSet;
 

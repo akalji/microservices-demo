@@ -1,6 +1,6 @@
 package com.akalji.learn.microservice.song.service.dao;
 
-import com.akalji.learn.microservice.song.service.common.domain.Song;
+import com.akalji.learn.microservice.song.service.domain.Song;
 import com.akalji.learn.microservice.song.service.repository.SongMetadataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

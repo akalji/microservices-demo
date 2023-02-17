@@ -1,6 +1,6 @@
 package com.akalji.learn.microservices.resourceservice.dao;
 
-import com.akalji.learn.microservices.resourceservice.common.domain.Resource;
+import com.akalji.learn.microservices.resourceservice.domain.Resource;
 
 import java.util.List;
 import java.util.Set;

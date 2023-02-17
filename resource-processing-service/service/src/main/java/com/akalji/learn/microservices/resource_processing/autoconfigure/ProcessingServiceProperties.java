@@ -9,7 +9,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "com.akalji.learn.microservices.processing-service")
+@ConfigurationProperties(prefix = "processing-service")
 public class ProcessingServiceProperties {
-
+    private String newResourceUploadedQueueName;
+    private String songServiceRootUri;
+    private String resourceServiceRootUri;
 }

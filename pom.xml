@@ -37,6 +37,8 @@
         <springdoc-openapi.version>2.0.2</springdoc-openapi.version>
         <mp3agic.version>0.9.1</mp3agic.version>
         <swagger-annotations.version>2.2.8</swagger-annotations.version>
+        <spring-retry.version>2.0.0</spring-retry.version>
+        <httpclient5.version>5.2.1</httpclient5.version>
     </properties>
 
     <modules>
@@ -117,6 +119,11 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.retry</groupId>
+                <artifactId>spring-retry</artifactId>
+                <version>${spring-retry.version}</version>
             </dependency>
 
             <dependency>

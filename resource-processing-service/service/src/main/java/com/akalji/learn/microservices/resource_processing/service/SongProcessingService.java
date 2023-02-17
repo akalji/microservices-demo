@@ -1,11 +1,13 @@
 package com.akalji.learn.microservices.resource_processing.service;
 
-import org.springframework.stereotype.Service;
+import java.io.File;
 
 /**
  * @author Nikolai_Tikhonov
  */
-@Service
 public interface SongProcessingService {
-    void saveSongMetadata(Integer songId);
+    void retrieveAndSaveSongMetadata(Integer resourceId);
+
+    void saveSongMetadata(File file, Integer resourceId);
+
 }

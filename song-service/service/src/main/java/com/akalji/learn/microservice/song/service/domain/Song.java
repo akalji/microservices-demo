@@ -1,4 +1,4 @@
-package com.akalji.learn.microservice.song.service.common.domain;
+package com.akalji.learn.microservice.song.service.domain;
 
 import com.akalji.learn.microservices.commons.domain.EntityObject;
 import jakarta.persistence.Column;

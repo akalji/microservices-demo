@@ -11,10 +11,14 @@ spring:
     password: msd_resources
   jpa:
     show-sql: true
+  rabbitmq:
+    username: admin
+    password: admin
 
 resource-service:
   s3Endpoint: http://s3.localhost.localstack.cloud:4566
   s3Bucket: resource-bucket
+  newResourceUploadedQueueName: resourceUploaded
 
 server:
   port: 8071

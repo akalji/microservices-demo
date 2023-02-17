@@ -1,6 +1,6 @@
 package com.akalji.learn.microservices.resourceservice.repository;
 
-import com.akalji.learn.microservices.resourceservice.common.domain.Resource;
+import com.akalji.learn.microservices.resourceservice.domain.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

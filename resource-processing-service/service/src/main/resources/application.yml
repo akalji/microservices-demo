@@ -1,0 +1,9 @@
+processing-service:
+  newResourceUploadedQueueName: resourceUploaded
+  songServiceRootUri: http://localhost:8070
+  resourceServiceRootUri: http://localhost:8071
+
+spring:
+  rabbitmq:
+    username: admin
+    password: admin

@@ -17,35 +17,18 @@ services:
       - ./docker/.env
     restart: unless-stopped
 
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    volumes:
-      - msl-zookeeper-data:/var/lib/zookeeper/data
-      - msl-zookeeper-logs:/var/lib/zookeeper/log
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
     ports:
-      - 2181:2181
-    env_file:
-      - ./docker/.env
-    restart: unless-stopped
-
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    depends_on:
-      - zookeeper
-    ports:
-      - 9092:9092
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092, PLAINTEXT_HOST://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      - 5672:5672
+      - 15672:15672
     volumes:
-      - msl-kafka-data:/var/lib/kafka/data
+      - msl-rabbitmq-data:/var/lib/rabbitmq/
+      - msl-rabbitmq-log:/var/log/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
     env_file:
       - ./docker/.env
     restart: unless-stopped
@@ -63,60 +46,60 @@ services:
     volumes:
       - msl-localstack:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker/s3create.sh:/etc/localstack/init/ready.d/init-aws.sh
     env_file:
       - ./docker/.env
     restart: unless-stopped
 
-  resource-service:
-    depends_on:
-      - kafka
-      - postgres
-    image: akalji/resource-service
-    build:
-      context: backend
-      dockerfile: ./resource-service/Dockerfile
-    restart: unless-stopped
+#  resource-service:
+#    depends_on:
+#      - kafka
+#      - postgres
+#    image: akalji/resource-service
+#    build:
+#      context: backend
+#      dockerfile: ./resource-service/Dockerfile
+#    restart: unless-stopped
 
-  song-service:
-    depends_on:
-      - postgres
-    image: akalji/song-service
-    build:
-      context: backend
-      dockerfile: ./song-service/Dockerfile
-    restart: unless-stopped
-
-  resource-processing-service:
-    depends_on:
-      - kafka
-      - postgres
-    image: akalji/resource-processing-service
-    build:
-      context: backend
-      dockerfile: ./resource-processing-service/Dockerfile
-    restart: unless-stopped
-
-  keycloak:
-    depends_on:
-      - postgres
-    container_name: keycloak
-    environment:
-      DB_VENDOR: postgres
-      DB_ADDR: ${POSTGRESQL_ADDRES}
-      DB_DATABASE: ${POSTGRESQL_DB}
-      DB_USER: ${POSTGRESQL_USER}
-      DB_PASSWORD: ${POSTGRESQL_PASS}
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USERNAME}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-    image: quay.io/keycloak/keycloak:latest
-    volumes:
-        - msl-keycloak:/opt/keycloak/data/
-    restart: unless-stopped
+#  song-service:
+#    depends_on:
+#      - postgres
+#    image: akalji/song-service
+#    build:
+#      context: backend
+#      dockerfile: ./song-service/Dockerfile
+#    restart: unless-stopped
+#
+#  resource-processing-service:
+#    depends_on:
+#      - kafka
+#      - postgres
+#    image: akalji/resource-processing-service
+#    build:
+#      context: backend
+#      dockerfile: ./resource-processing-service/Dockerfile
+#    restart: unless-stopped
+#
+#  keycloak:
+#    depends_on:
+#      - postgres
+#    container_name: keycloak
+#    environment:
+#      DB_VENDOR: postgres
+#      DB_ADDR: ${POSTGRESQL_ADDRES}
+#      DB_DATABASE: ${POSTGRESQL_DB}
+#      DB_USER: ${POSTGRESQL_USER}
+#      DB_PASSWORD: ${POSTGRESQL_PASS}
+#      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USERNAME}
+#      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+#    image: quay.io/keycloak/keycloak:latest
+#    volumes:
+#        - msl-keycloak:/opt/keycloak/data/
+#    restart: unless-stopped
 
 volumes:
   msl-localstack:
   msl-postgresql:
-  msl-zookeeper-data:
-  msl-zookeeper-logs:
-  msl-kafka-data:
+  msl-rabbitmq-data:
+  msl-rabbitmq-log:
   msl-keycloak:

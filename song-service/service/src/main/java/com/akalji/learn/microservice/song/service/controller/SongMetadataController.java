@@ -1,6 +1,7 @@
 package com.akalji.learn.microservice.song.service.controller;
 
 import com.akalji.learn.microservice.song.service.common.dto.SongDto;
+import com.akalji.learn.microservice.song.service.mapper.SongMapper;
 import com.akalji.learn.microservice.song.service.service.SongMetadataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,14 +33,14 @@ public class SongMetadataController {
     @GetMapping(GET_SONG)
     public SongDto getSong(@PathVariable("id") Integer id) {
         var song = songMetadataService.getSong(id);
-        return SongDto.from(song);
+        return SongMapper.toDto(song);
     }
 
     @PostMapping(SAVE_SONG)
     public SongDto postSong(@RequestBody SongDto songDto) {
-        var song = songDto.toSong();
+        var song = SongMapper.toEntity(songDto);
         song = songMetadataService.saveSong(song);
-        return SongDto.from(song);
+        return SongMapper.toDto(song);
     }
 
     @DeleteMapping(DELETE_SONGS)

@@ -13,4 +13,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ResourceServiceProperties {
     private String s3Endpoint;
     private String s3Bucket;
+    private String newResourceUploadedQueueName;
 }

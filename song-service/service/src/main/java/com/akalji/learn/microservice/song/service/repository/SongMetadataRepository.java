@@ -1,6 +1,6 @@
 package com.akalji.learn.microservice.song.service.repository;
 
-import com.akalji.learn.microservice.song.service.common.domain.Song;
+import com.akalji.learn.microservice.song.service.domain.Song;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
