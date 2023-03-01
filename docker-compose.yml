@@ -3,7 +3,6 @@ version: "3.8"
 name: microservices-demo
 services:
   postgres:
-    container_name: postgres_microservices_demo
     image: postgres:15.1
     environment:
       - POSTGRES_USER=postgres
@@ -12,14 +11,16 @@ services:
       - msl-postgresql:/var/lib/postgresql/data
       - ./docker/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
     ports:
-      - 127.0.0.1:5432:5432
+      - 5432:5432
     env_file:
       - ./docker/.env
     restart: unless-stopped
+    networks:
+      - spring-cloud-network
+
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    container_name: rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
@@ -32,13 +33,14 @@ services:
     env_file:
       - ./docker/.env
     restart: unless-stopped
+    networks:
+      - spring-cloud-network
 
   localstack:
-    container_name: localstack_microservices_demo
     image: localstack/localstack
     ports:
-      - 127.0.0.1:4566:4566            # LocalStack Gateway
-      - 127.0.0.1:4510-4559:4510-4559  # external services port range
+      - 4566:4566            # LocalStack Gateway
+      - 4510-4559:4510-4559  # external services port range
     environment:
       - DEBUG=${DEBUG-}
       - LAMBDA_EXECUTOR=docker-reuse
@@ -46,39 +48,61 @@ services:
     volumes:
       - msl-localstack:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./docker/s3create.sh:/etc/localstack/init/ready.d/init-aws.sh
+      - ./docker/s3create.sh:/docker-entrypoint-initaws.d/init-aws.sh
     env_file:
       - ./docker/.env
     restart: unless-stopped
+    networks:
+      - spring-cloud-network
 
-#  resource-service:
-#    depends_on:
-#      - kafka
-#      - postgres
-#    image: akalji/resource-service
-#    build:
-#      context: backend
-#      dockerfile: ./resource-service/Dockerfile
-#    restart: unless-stopped
+  resource-service:
+    depends_on:
+      - rabbitmq
+      - postgres
+      - localstack
+    image: resource-service
+    build:
+      context: ./resource-service/
+      dockerfile: Dockerfile
+    ports:
+      - 8071:8071
+    env_file:
+      - ./docker/.env
+    restart: unless-stopped
+    networks:
+      - spring-cloud-network
+    links:
+      - localstack:localstack
 
-#  song-service:
-#    depends_on:
-#      - postgres
-#    image: akalji/song-service
-#    build:
-#      context: backend
-#      dockerfile: ./song-service/Dockerfile
-#    restart: unless-stopped
-#
-#  resource-processing-service:
-#    depends_on:
-#      - kafka
-#      - postgres
-#    image: akalji/resource-processing-service
-#    build:
-#      context: backend
-#      dockerfile: ./resource-processing-service/Dockerfile
-#    restart: unless-stopped
+
+  song-service:
+    depends_on:
+      - postgres
+    image: song-service:latest
+    build:
+      context: ./song-service/
+      dockerfile: Dockerfile
+    env_file:
+      - ./docker/.env
+    ports:
+      - 8070:8070
+    restart: unless-stopped
+    networks:
+      - spring-cloud-network
+
+  resource-processing-service:
+    depends_on:
+      - rabbitmq
+      - postgres
+    image: resource-processing-service:latest
+    build:
+      context: ./resource-processing-service/
+      dockerfile: Dockerfile
+    env_file:
+      - ./docker/.env
+    restart: unless-stopped
+    networks:
+      - spring-cloud-network
 #
 #  keycloak:
 #    depends_on:
@@ -103,3 +127,7 @@ volumes:
   msl-rabbitmq-data:
   msl-rabbitmq-log:
   msl-keycloak:
+
+networks:
+  spring-cloud-network:
+    driver: bridge

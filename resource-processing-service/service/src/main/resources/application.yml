@@ -1,9 +1,10 @@
 processing-service:
   newResourceUploadedQueueName: resourceUploaded
-  songServiceRootUri: http://localhost:8070
-  resourceServiceRootUri: http://localhost:8071
+  songServiceRootUri: http://${SONG_SERVICE_HOST}:8070
+  resourceServiceRootUri: http://${RESOURCE_SERVICE_HOST}:8071
 
 spring:
   rabbitmq:
-    username: admin
-    password: admin
+    username: ${RABBIT_USERNAME}
+    password: ${RABBIT_PASSWORD}
+    host: ${RABBIT_HOST}

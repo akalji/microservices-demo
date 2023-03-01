@@ -6,9 +6,9 @@ spring:
       max-file-size: 35MB
       max-request-size: 35MB
   datasource:
-    url: jdbc:postgresql://localhost:5432/msd_songs
-    username: msd_songs
-    password: msd_songs
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/msd_songs
+    username: ${PG_SONG_SERVICE_USERNAME}
+    password: ${PG_SONG_SERVICE_PASSWORD}
   jpa:
     show-sql: true
 

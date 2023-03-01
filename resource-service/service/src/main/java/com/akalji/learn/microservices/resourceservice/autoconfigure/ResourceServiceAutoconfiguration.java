@@ -1,5 +1,6 @@
 package com.akalji.learn.microservices.resourceservice.autoconfigure;
 
+import com.amazonaws.ClientConfiguration;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -25,6 +26,7 @@ public class ResourceServiceAutoconfiguration {
         final var endpoint = new AwsClientBuilder.EndpointConfiguration(properties.getS3Endpoint(), "default");
         return AmazonS3ClientBuilder.standard()
                 .withEndpointConfiguration(endpoint)
+                .withPathStyleAccessEnabled(true)
                 .build();
     }
 

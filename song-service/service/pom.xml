@@ -73,6 +73,7 @@
     </dependencies>
 
     <build>
+        <finalName>song-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

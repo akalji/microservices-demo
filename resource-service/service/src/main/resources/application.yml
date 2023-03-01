@@ -6,17 +6,18 @@ spring:
       max-file-size: 35MB
       max-request-size: 35MB
   datasource:
-    url: jdbc:postgresql://localhost:5432/msd_resources
-    username: msd_resources
-    password: msd_resources
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/msd_resources
+    username: ${PG_RESOURCE_SERVICE_USERNAME}
+    password: ${PG_RESOURCE_SERVICE_PASSWORD}
   jpa:
     show-sql: true
   rabbitmq:
-    username: admin
-    password: admin
+    username: ${RABBIT_USERNAME}
+    password: ${RABBIT_PASSWORD}
+    host: ${RABBIT_HOST}
 
 resource-service:
-  s3Endpoint: http://s3.localhost.localstack.cloud:4566
+  s3Endpoint: http://${S3_HOST}:4566
   s3Bucket: resource-bucket
   newResourceUploadedQueueName: resourceUploaded
 

@@ -39,6 +39,7 @@
         <swagger-annotations.version>2.2.8</swagger-annotations.version>
         <spring-retry.version>2.0.0</spring-retry.version>
         <httpclient5.version>5.2.1</httpclient5.version>
+        <cucumber.version>7.11.1</cucumber.version>
     </properties>
 
     <modules>
@@ -125,11 +126,17 @@
                 <artifactId>spring-retry</artifactId>
                 <version>${spring-retry.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>s3</artifactId>
                 <version>${aws-sdk.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-java</artifactId>
+                <version>${cucumber.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

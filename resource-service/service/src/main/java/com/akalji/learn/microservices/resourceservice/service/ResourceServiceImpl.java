@@ -3,15 +3,21 @@ package com.akalji.learn.microservices.resourceservice.service;
 import com.akalji.learn.microservices.resourceservice.autoconfigure.ResourceServiceProperties;
 import com.akalji.learn.microservices.resourceservice.domain.Resource;
 import com.akalji.learn.microservices.resourceservice.dao.ResourceDao;
+import com.amazonaws.RequestClientOptions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import org.apache.commons.lang3.Validate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 import java.util.UUID;

@@ -2,6 +2,7 @@ package com.akalji.learn.microservices.resourceservice.service;
 
 import com.akalji.learn.microservices.resourceservice.domain.Resource;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 
