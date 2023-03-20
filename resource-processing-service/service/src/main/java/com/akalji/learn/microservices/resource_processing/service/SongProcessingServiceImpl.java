@@ -4,6 +4,7 @@ import com.akalji.learn.microservice.song.service.common.client.SongServiceClien
 import com.akalji.learn.microservice.song.service.common.dto.SongDto;
 import com.akalji.learn.microservices.resource_processing.autoconfigure.ProcessingServiceProperties;
 import com.akalji.learn.microservices.resource_processing.exception.ResourceProcessingException;
+import com.akalji.learn.microservices.resource_processing.util.Mp3Utils;
 import com.akalji.learn.microservices.resourceservice.common.client.ResourceServiceClient;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
@@ -62,52 +63,8 @@ public class SongProcessingServiceImpl implements SongProcessingService {
 
     public void saveSongMetadata(File file, Integer resourceId) {
         try {
-            var mp3File = new Mp3File(file);
-            var songDto = new SongDto();
-
-            String name = null;
-            String artist = null;
-            String album = null;
-            String length = formatSongLength(mp3File.getLengthInMilliseconds());
-
-            Integer year = null;
-
-            if (mp3File.hasId3v2Tag()) {
-                var id3v2Tag = mp3File.getId3v2Tag();
-                if (id3v2Tag.getTitle() != null) {
-                    name = id3v2Tag.getTitle();
-                }
-                if (id3v2Tag.getArtist() != null) {
-                    artist = id3v2Tag.getArtist();
-                }
-                if (id3v2Tag.getAlbum() != null) {
-                    album = id3v2Tag.getAlbum();
-                }
-                if (id3v2Tag.getYear() != null && !id3v2Tag.getYear().isBlank()) {
-                    year = Integer.parseInt(id3v2Tag.getYear());
-                }
-            } else if (mp3File.hasId3v1Tag()) {
-                var id3v1Tag = mp3File.getId3v1Tag();
-                if (id3v1Tag.getTitle() != null) {
-                    name = id3v1Tag.getTrack();
-                }
-                if (id3v1Tag.getArtist() != null) {
-                    artist = id3v1Tag.getArtist();
-                }
-                if (id3v1Tag.getAlbum() != null) {
-                    album = id3v1Tag.getAlbum();
-                }
-                if (id3v1Tag.getYear() != null && !id3v1Tag.getYear().isBlank()) {
-                    year = Integer.parseInt(id3v1Tag.getYear());
-                }
-            }
-
-            songDto.setName(name);
-            songDto.setArtist(artist);
-            songDto.setAlbum(album);
-            songDto.setLength(length);
+            SongDto songDto = Mp3Utils.getSongMetadata(file);
             songDto.setResourceId(resourceId);
-            songDto.setYear(year);
 
             var song = songServiceClient.createSong(songDto);
             if (song.getId() == null) {
@@ -117,10 +74,5 @@ public class SongProcessingServiceImpl implements SongProcessingService {
             returnResourceToQueue(null, resourceId);
             throw new RuntimeException(e);
         }
-    }
-
-    private String formatSongLength(Long millis) {
-        var duration = Duration.ofMillis(millis);
-        return String.format("%d:%02d", duration.toMinutes(), duration.toSecondsPart());
     }
 }
