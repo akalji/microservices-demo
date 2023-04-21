@@ -28,6 +28,7 @@
         <commons.version>0.0.1-SNAPSHOT</commons.version>
         <!-- END LOCAL DEPENDENCIES  -->
 
+        <spring-cloud.version>2022.0.1</spring-cloud.version>
         <aws-sdk.version>2.19.26</aws-sdk.version>
         <liquibase.version>4.19.0</liquibase.version>
         <lombok.version>1.18.24</lombok.version>
@@ -47,6 +48,8 @@
 
     <modules>
         <module>commons</module>
+        <module>registry</module>
+        <module>gateway</module>
         <module>resource-service</module>
         <module>song-service</module>
         <module>resource-processing-service</module>
@@ -77,6 +80,13 @@
             </dependency>
             <!-- END LOCAL DEPENDENCIES  -->
 
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>

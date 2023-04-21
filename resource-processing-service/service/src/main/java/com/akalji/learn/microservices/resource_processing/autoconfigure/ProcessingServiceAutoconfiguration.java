@@ -8,11 +8,11 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Nikolai_Tikhonov
@@ -25,17 +25,19 @@ public class ProcessingServiceAutoconfiguration {
     private ProcessingServiceProperties properties;
 
     @Bean
-    @ConditionalOnMissingBean
     public SongServiceClient songServiceClient() {
-        var template = new RestTemplateBuilder().rootUri(properties.getSongServiceRootUri()).build();
-        return new SongServiceClientImpl(template);
+        return new SongServiceClientImpl();
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public ResourceServiceClient resourceServiceClient() {
-        var template = new RestTemplateBuilder().rootUri(properties.getResourceServiceRootUri()).build();
-        return new ResourceServiceClientImpl(template);
+        return new ResourceServiceClientImpl();
+    }
+
+    @LoadBalanced
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
     @Bean

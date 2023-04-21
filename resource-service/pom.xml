@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.akalji.learn.microservices</groupId>
-    <artifactId>resource_service</artifactId>
+    <artifactId>resource-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 

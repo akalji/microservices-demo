@@ -1,8 +1,7 @@
 package com.akalji.learn.microservice.song.service.common.client;
 
 import com.akalji.learn.microservice.song.service.common.dto.SongDto;
-import org.apache.commons.lang3.Validate;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 import static com.akalji.learn.microservice.song.service.common.Endpoints.SAVE_SONG;
@@ -12,16 +11,12 @@ import static com.akalji.learn.microservice.song.service.common.Endpoints.SAVE_S
  */
 public class SongServiceClientImpl implements SongServiceClient {
 
-    private final RestTemplate restTemplate;
-
-    public SongServiceClientImpl(RestTemplate template) {
-        Validate.notNull(template);
-        restTemplate = template;
-    }
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public SongDto createSong(SongDto songDto) {
-        ResponseEntity<SongDto> songDtoResponseEntity = restTemplate.postForEntity(SAVE_SONG, songDto, SongDto.class);
+        var songDtoResponseEntity = restTemplate.postForEntity("http://song-service" + SAVE_SONG, songDto, SongDto.class);
         return songDtoResponseEntity.getBody();
     }
 

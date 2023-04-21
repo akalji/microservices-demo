@@ -6,11 +6,26 @@ spring:
       max-file-size: 35MB
       max-request-size: 35MB
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST}:5432/msd_songs
-    username: ${PG_SONG_SERVICE_USERNAME}
-    password: ${PG_SONG_SERVICE_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/msd_songs
+    username: msd_songs
+    password: msd_songs
   jpa:
     show-sql: true
+  application:
+    name: song-service
+
+info:
+  app:
+    name: ${spring.application.name}
+
+eureka:
+  client:
+    fetch-registry: true
+    registerWithEureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
 
 server:
   port: 8070
@@ -28,3 +43,13 @@ springdoc:
     path: /swagger-ui.html
     tagsSorter: alpha
     operationsSorter: alpha
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - mappings
+          - env
+          - health
+          - info

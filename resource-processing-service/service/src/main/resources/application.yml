@@ -1,10 +1,34 @@
 processing-service:
   newResourceUploadedQueueName: resourceUploaded
-  songServiceRootUri: http://${SONG_SERVICE_HOST}:8070
-  resourceServiceRootUri: http://${RESOURCE_SERVICE_HOST}:8071
+  songServiceRootUri: http://127.0.0.1:8070
+  resourceServiceRootUri: http://127.0.0.1:8071
 
 spring:
   rabbitmq:
-    username: ${RABBIT_USERNAME}
-    password: ${RABBIT_PASSWORD}
-    host: ${RABBIT_HOST}
+    username: admin
+    password: admin
+    host: localhost
+  cloud:
+    config:
+      name: resource-processing-service
+      discovery:
+        enabled: true
+        service-id: config-service
+  application:
+    name: resource-processing-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+
+server:
+  port: 8073
+  max-http-header-size: 40KB
+  servlet:
+    context-path: /
+  tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
