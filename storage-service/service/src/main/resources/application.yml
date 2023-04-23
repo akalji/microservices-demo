@@ -1,0 +1,50 @@
+spring:
+  liquibase:
+    changeLog: storage.db-changelog/storage-changelog-master.xml
+  servlet:
+    multipart:
+      max-file-size: 35MB
+      max-request-size: 35MB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/msd_storages
+    username: msd_storages
+    password: msd_storages
+  jpa:
+    show-sql: true
+  application:
+    name: storage-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+
+server:
+  port: 8069
+  max-http-header-size: 40KB
+  servlet:
+    context-path: /
+  tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
+
+springdoc:
+  packagesToScan: com.akalji.learn.microservices.storageservice.controller
+  swagger-ui:
+    docExpansion: none
+    path: /swagger-ui.html
+    tagsSorter: alpha
+    operationsSorter: alpha
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - mappings
+          - env
+          - health
+          - info
+

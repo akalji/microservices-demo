@@ -14,4 +14,5 @@ public class ProcessingServiceProperties {
     private String newResourceUploadedQueueName;
     private String songServiceRootUri;
     private String resourceServiceRootUri;
+    private String resourceProcessedQueueName;
 }

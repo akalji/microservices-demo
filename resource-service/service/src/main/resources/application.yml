@@ -29,6 +29,7 @@ resource-service:
   s3Endpoint: http://localhost:4566
   s3Bucket: resource-bucket
   newResourceUploadedQueueName: resourceUploaded
+  resourceProcessedQueueName: resourceProcessed
 
 server:
   port: 8071
@@ -56,4 +57,24 @@ management:
           - env
           - health
           - info
+logging:
+  level:
+    com.amazonaws.util.EC2MetadataUtils: error
+    com.amazonaws.internal.InstanceMetadataServiceResourceFetcher: error
+
+resilience4j.circuitbreaker:
+  instances:
+    add:
+      registerHealthIndicator: true
+      ringBufferSizeInClosedState: 5
+      ringBufferSizeInHalfOpenState: 3
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 50
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+        - java.util.concurrent.TimeoutException
+        - org.springframework.web.client.ResourceAccessException
+        - org.springframework.web.client.HttpClientErrorException
+
 

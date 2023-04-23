@@ -1,7 +1,6 @@
 processing-service:
   newResourceUploadedQueueName: resourceUploaded
-  songServiceRootUri: http://127.0.0.1:8070
-  resourceServiceRootUri: http://127.0.0.1:8071
+  resourceProcessedQueueName: resourceProcessed
 
 spring:
   rabbitmq:

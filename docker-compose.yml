@@ -55,54 +55,54 @@ services:
     networks:
       - spring-cloud-network
 
-  resource-service:
-    depends_on:
-      - rabbitmq
-      - postgres
-      - localstack
-    image: resource-service
-    build:
-      context: ./resource-service/
-      dockerfile: Dockerfile
-    ports:
-      - 8071:8071
-    env_file:
-      - ./docker/.env
-    restart: unless-stopped
-    networks:
-      - spring-cloud-network
-    links:
-      - localstack:localstack
-
-
-  song-service:
-    depends_on:
-      - postgres
-    image: song-service:latest
-    build:
-      context: ./song-service/
-      dockerfile: Dockerfile
-    env_file:
-      - ./docker/.env
-    ports:
-      - 8070:8070
-    restart: unless-stopped
-    networks:
-      - spring-cloud-network
-
-  resource-processing-service:
-    depends_on:
-      - rabbitmq
-      - postgres
-    image: resource-processing-service:latest
-    build:
-      context: ./resource-processing-service/
-      dockerfile: Dockerfile
-    env_file:
-      - ./docker/.env
-    restart: unless-stopped
-    networks:
-      - spring-cloud-network
+#  resource-service:
+#    depends_on:
+#      - rabbitmq
+#      - postgres
+#      - localstack
+#    image: resource-service
+#    build:
+#      context: ./resource-service/
+#      dockerfile: Dockerfile
+#    ports:
+#      - 8071:8071
+#    env_file:
+#      - ./docker/.env
+#    restart: unless-stopped
+#    networks:
+#      - spring-cloud-network
+#    links:
+#      - localstack:localstack
+#
+#
+#  song-service:
+#    depends_on:
+#      - postgres
+#    image: song-service:latest
+#    build:
+#      context: ./song-service/
+#      dockerfile: Dockerfile
+#    env_file:
+#      - ./docker/.env
+#    ports:
+#      - 8070:8070
+#    restart: unless-stopped
+#    networks:
+#      - spring-cloud-network
+#
+#  resource-processing-service:
+#    depends_on:
+#      - rabbitmq
+#      - postgres
+#    image: resource-processing-service:latest
+#    build:
+#      context: ./resource-processing-service/
+#      dockerfile: Dockerfile
+#    env_file:
+#      - ./docker/.env
+#    restart: unless-stopped
+#    networks:
+#      - spring-cloud-network
 #
 #  keycloak:
 #    depends_on:

@@ -8,6 +8,7 @@
     <sql>
         CREATE TABLE resources (
               id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+              storage_type varchar(15) NOT NULL,
               uri text NOT NULL
         );
         CREATE INDEX resources_id_idx ON resources (id);

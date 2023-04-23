@@ -7,7 +7,6 @@ import com.akalji.learn.microservices.resource_processing.exception.ResourceProc
 import com.akalji.learn.microservices.resource_processing.util.Mp3Utils;
 import com.akalji.learn.microservices.resourceservice.common.client.ResourceServiceClient;
 import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import org.apache.commons.io.FileUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.UUID;
 
 /**
@@ -51,6 +49,7 @@ public class SongProcessingServiceImpl implements SongProcessingService {
 
             FileUtils.writeByteArrayToFile(tempFile, resourceServiceClient.getResourceById(resourceId));
             saveSongMetadata(tempFile, resourceId);
+            rabbitTemplate.convertAndSend(properties.getResourceProcessedQueueName(), resourceId);
         } catch (IOException e) {
             throw new ResourceProcessingException(e);
         }

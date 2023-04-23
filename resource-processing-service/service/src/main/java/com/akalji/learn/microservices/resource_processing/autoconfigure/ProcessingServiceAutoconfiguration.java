@@ -46,6 +46,11 @@ public class ProcessingServiceAutoconfiguration {
     }
 
     @Bean
+    public Queue resourceProcessedQueue() {
+        return new Queue(properties.getResourceProcessedQueueName(), false, false, false, null);
+    }
+
+    @Bean
     public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory) {
         return new RabbitTemplate(connectionFactory);
     }

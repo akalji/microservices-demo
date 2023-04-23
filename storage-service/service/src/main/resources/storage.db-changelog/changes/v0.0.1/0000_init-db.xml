@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="create new databases" author="Nikolai Tikhonov">
+        <sql>
+            CREATE TABLE storages
+            (
+                id           integer     NOT NULL GENERATED ALWAYS AS IDENTITY,
+                type varchar(15) NOT NULL,
+                bucket          varchar(30)        NOT NULL,
+                path text not null
+            );
+            CREATE INDEX storage_id_idx ON storages (id);
+        </sql>
+    </changeSet>
+
+    <changeSet id="add default storages" author="Nikolai Tikhonov">
+        <sql>
+            insert into storages (type, bucket, path) VALUES
+                ('PERMANENT', 'resource-bucket', '/files'),
+                ('STAGING','resource-staging-bucket','/files');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

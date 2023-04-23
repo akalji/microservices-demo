@@ -1,9 +1,9 @@
 package com.akalji.learn.microservices.resourceservice.controller;
 
+import com.akalji.learn.microservices.commons.dto.IdDto;
 import com.akalji.learn.microservices.resourceservice.service.ResourceService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 /**
  * @author Nikolai_Tikhonov
@@ -35,11 +33,9 @@ public class ResourceController {
     private ResourceService resourceService;
 
     @PostMapping(consumes = "audio/mpeg")
-    public Map<String, Integer> createResource(InputStream audioFile) {
+    public IdDto createResource(InputStream audioFile) {
         var resource = resourceService.saveResource(audioFile);
-        var map = new HashMap<String, Integer>();
-        map.put("id", resource.getId());
-        return map;
+        return new IdDto(resource.getId());
     }
 
     @GetMapping("/{id}")

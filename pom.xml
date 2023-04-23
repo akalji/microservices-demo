@@ -24,6 +24,7 @@
         <!-- LOCAL DEPENDENCIES  -->
         <song-service-commons.version>0.0.1-SNAPSHOT</song-service-commons.version>
         <resource-service-commons.version>0.0.1-SNAPSHOT</resource-service-commons.version>
+        <storage-service-commons.version>0.0.1-SNAPSHOT</storage-service-commons.version>
         <resource-processing-service-commons.version>0.0.1-SNAPSHOT</resource-processing-service-commons.version>
         <commons.version>0.0.1-SNAPSHOT</commons.version>
         <!-- END LOCAL DEPENDENCIES  -->
@@ -39,7 +40,6 @@
         <mp3agic.version>0.9.1</mp3agic.version>
         <swagger-annotations.version>2.2.8</swagger-annotations.version>
         <spring-retry.version>2.0.0</spring-retry.version>
-        <httpclient5.version>5.2.1</httpclient5.version>
 
         <jupiter.version>5.9.2</jupiter.version>
         <cucumber.version>7.11.1</cucumber.version>
@@ -51,6 +51,7 @@
         <module>registry</module>
         <module>gateway</module>
         <module>resource-service</module>
+        <module>storage-service</module>
         <module>song-service</module>
         <module>resource-processing-service</module>
     </modules>
@@ -72,6 +73,11 @@
                 <groupId>com.akalji.learn.microservices.resourceservice</groupId>
                 <artifactId>resource-service-commons</artifactId>
                 <version>${resource-service-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.akalji.learn.microservices.storageservice</groupId>
+                <artifactId>storage-service-commons</artifactId>
+                <version>${storage-service-commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.akalji.learn.microservices.resourceprocessing</groupId>

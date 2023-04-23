@@ -24,6 +24,10 @@
             <artifactId>commons</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.akalji.learn.microservices.storageservice</groupId>
+            <artifactId>storage-service-commons</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.akalji.learn.microservices.resourceservice</groupId>
             <artifactId>resource-service-commons</artifactId>
         </dependency>
@@ -78,6 +82,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
