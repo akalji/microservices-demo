@@ -24,6 +24,10 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
     healthcheck:
       enabled: true
+  instance:
+    metadataMap:
+      "prometheus.scrape": "true"
+      "prometheus.path": "/actuator/prometheus"
 
 resource-service:
   s3Endpoint: http://localhost:4566
@@ -49,14 +53,20 @@ springdoc:
     operationsSorter: alpha
 
 management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
   endpoints:
     web:
       exposure:
         include:
-          - mappings
-          - env
-          - health
+          - prometheus
+          - metrics
           - info
+          - health
+
 logging:
   level:
     com.amazonaws.util.EC2MetadataUtils: error

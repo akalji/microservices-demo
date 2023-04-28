@@ -19,6 +19,10 @@ spring:
           - StripPrefix=1
 
 eureka:
+  instance:
+    metadataMap:
+      "prometheus.scrape": "true"
+      "prometheus.path": "/actuator/prometheus"
   client:
     fetch-registry: true
     registerWithEureka: true
@@ -30,11 +34,16 @@ info:
     name: ${spring.application.name}
 
 management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
   endpoints:
     web:
       exposure:
         include:
-          - mappings
-          - env
-          - health
+          - prometheus
+          - metrics
           - info
+          - health

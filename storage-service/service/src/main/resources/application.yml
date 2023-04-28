@@ -20,6 +20,10 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
     healthcheck:
       enabled: true
+  instance:
+    metadataMap:
+      "prometheus.scrape": "true"
+      "prometheus.path": "/actuator/prometheus"
 
 server:
   port: 8069
@@ -39,12 +43,18 @@ springdoc:
     operationsSorter: alpha
 
 management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
   endpoints:
     web:
       exposure:
         include:
-          - mappings
-          - env
-          - health
+          - prometheus
+          - metrics
           - info
+          - health
+
 

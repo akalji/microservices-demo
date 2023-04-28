@@ -11,7 +11,7 @@ services:
       - msl-postgresql:/var/lib/postgresql/data
       - ./docker/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
     ports:
-      - 5432:5432
+      - "5432:5432"
     env_file:
       - ./docker/.env
     restart: unless-stopped
@@ -22,8 +22,8 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
     volumes:
       - msl-rabbitmq-data:/var/lib/rabbitmq/
       - msl-rabbitmq-log:/var/log/rabbitmq
@@ -39,8 +39,8 @@ services:
   localstack:
     image: localstack/localstack
     ports:
-      - 4566:4566            # LocalStack Gateway
-      - 4510-4559:4510-4559  # external services port range
+      - "4566:4566"            # LocalStack Gateway
+      - "4510-4559:4510-4559"  # external services port range
     environment:
       - DEBUG=${DEBUG-}
       - LAMBDA_EXECUTOR=docker-reuse
@@ -54,6 +54,44 @@ services:
     restart: unless-stopped
     networks:
       - spring-cloud-network
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+#  elasticsearch:
+#    image: elasticsearch:8.7.0
+#    networks:
+#      - spring-cloud-network
+#    volumes:
+#      - msl-elasticsearch:/usr/share/elasticsearch/data
+#    environment:
+#      - cluster.name=msl-es
+#      - discovery.type=single-node
+#      - xpack.security.enabled=false
+#      - ES_JAVA_OPTS=-Xms2048m -Xmx2048m
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#
+#  kibana:
+#    image: kibana:8.7.0
+#    ports:
+#      - "5601:5601"
+#    environment:
+#      - SERVERNAME=kibana
+#      - xpack.security.enabled=false
+#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#    networks:
+#      - spring-cloud-network
 
 #  resource-service:
 #    depends_on:
@@ -127,6 +165,7 @@ volumes:
   msl-rabbitmq-data:
   msl-rabbitmq-log:
   msl-keycloak:
+#  msl-elasticsearch:
 
 networks:
   spring-cloud-network:

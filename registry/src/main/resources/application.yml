@@ -1,6 +1,9 @@
 server:
   port: 8761
 eureka:
+  instance:
+    metadataMap:
+      "prometheus.path": "/actuator/prometheus"
   client:
     registerWithEureka: false
     fetchRegistry: false
